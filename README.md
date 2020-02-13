@@ -32,6 +32,8 @@ Just edit the .ahk file with [Notepad++](https://notepad-plus-plus.org/downloads
 
 LaunchOnslGUI and LaunchEmoteGUI (middle of the script) are for the actions done for each image (in horde/emote panel, respectively)
 
+By default, I commented the middle image (so releasing key while mouse is in the center will not produce any action), but if you don't want a "Back/Escape" area, just uncomment (remove the ;) those lines (in the .ahk : 1 in the Gui, 1 in the Reset function, 2 in the LaunchGUI function)
+
 To change the images inside the GUI, it's at the start of the script, just change the path to change the image
 
 ![code path](https://i.imgur.com/4jUJnDy.png)
