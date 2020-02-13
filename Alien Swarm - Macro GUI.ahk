@@ -16,14 +16,26 @@ counter = -1
 emotegui = -1
 onslgui = -1
 
+CenterX150 := 650
+CenterY150 := 250
+CenterX := 800
+CenterY := 400
+
 ; Window Constants
-SysGet, borderwidth, 32
-SysGet, borderheight, 33
-WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_exe reactivedrop.exe
-CenterX150 := WinX + (WinWidth / 2) + borderwidth - 150
-CenterY150 := WinY + (WinHeight / 2) + borderheight - 150
-CenterX := CenterX150 + 150 - WinX
-CenterY := CenterY150 + 150 - WinY
+If WinExist("ahk_exe reactivedrop.exe")
+{
+	SysGet, borderwidth, 32
+	SysGet, borderheight, 33
+	WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_exe reactivedrop.exe
+	CenterX150 := WinX + (WinWidth / 2) + borderwidth - 150
+	CenterY150 := WinY + (WinHeight / 2) + borderheight - 150
+	CenterX := CenterX150 + 150 - WinX
+	CenterY := CenterY150 + 150 - WinY
+}
+CenterXLeft := CenterX - 50
+CenterXRight := CenterX + 50
+CenterYLeft := CenterY - 50
+CenterYRight := CenterY + 50
 
 ;=============== GUI ==========================
 Gui, ChatGUI:+AlwaysOnTop -Caption -border +Disabled
