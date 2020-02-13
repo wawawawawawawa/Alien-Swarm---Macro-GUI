@@ -52,6 +52,6 @@ By default, I made it so in the autoexec.cfg :
 
 At the end of the file, you can see this :
 
-![Default Macros](https://i.imgur.com/4riteqc.png)
+![Default Macros](https://i.imgur.com/BHYkttD.png)
 
 The binds will cycle through the 4 texts, and by default it will be XENO1/XENO2/XENO3/XENO4, but you can change the text here to have some better macros :)
