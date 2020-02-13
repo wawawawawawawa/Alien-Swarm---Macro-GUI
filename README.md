@@ -41,3 +41,17 @@ Just change "enemies\Parasite.png" to "emotes\emotego.png" for instance to turn 
 Once you understand the principle behind it, you can make custom GUI as well like this :
 
 ![Custom GUI](https://i.imgur.com/1bzQS5a.png)
+
+4) Customize the Macros
+
+By default, I made it so in the autoexec.cfg :
+
+- Numpad [1-9] => Horde GUI macros
+- Left Control + Numpad [1-9] => Character Selection (in lobby, this is some small bonus lol, but feel free to change that to new macros and use it for another GUI :p)
+- Right Control + Numpad [1-9] => Emotes
+
+At the end of the file, you can see this :
+
+![Default Macros](https://i.imgur.com/4riteqc.png)
+
+The binds will cycle through the 4 texts, and by default it will be XENO1/XENO2/XENO3/XENO4, but you can change the text here to have some better macros :)
