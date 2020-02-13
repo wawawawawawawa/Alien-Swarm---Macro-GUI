@@ -36,7 +36,7 @@ To change the images inside the GUI, it's at the start of the script, just chang
 
 ![code path](https://i.imgur.com/4jUJnDy.png)
 
-Just change enemies/Parasite.png to emote/emotego.png for instance to turn the parasite image into the Go image (you will then need to change the action as well)
+Just change "enemies\Parasite.png" to "emotes\emotego.png" for instance to turn the parasite image into the Go image (you will then need to change the action as well)
 
 Once you understand the principle behind it, you can make custom GUI as well like this :
 
