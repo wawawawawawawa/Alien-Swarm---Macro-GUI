@@ -168,61 +168,64 @@ LaunchEmoteGUI:
 	{
 		While (GetKeyState(KeyBind))
 		{
-			if emotegui = -1
+			IfWinActive ahk_exe reactivedrop.exe
 			{
-				MouseGetPos, CurrentPosX, CurrentPosY
-				MouseMove, %CenterX%, %CenterY%
-				emotegui = 1
-			}
-			MouseGetPos, CurrentEmoteX, CurrentEmoteY
-			ResetEmoteGUI()
-			if CurrentEmoteX < 750
-			{
-				if CurrentEmoteY < 400
+				if emotegui = -1
 				{
-					GuiControl, EmoteGUI:MoveDraw, PICTL, w100 h100 x0 y0
+					MouseGetPos, CurrentPosX, CurrentPosY
+					MouseMove, %CenterX%, %CenterY%
+					emotegui = 1
 				}
-				else if CurrentEmoteY > 500
+				MouseGetPos, CurrentEmoteX, CurrentEmoteY
+				ResetEmoteGUI()
+				if CurrentEmoteX < 750
 				{
-					GuiControl, EmoteGUI:MoveDraw, PICBL, w100 h100 x0 y200
+					if CurrentEmoteY < 400
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICTL, w100 h100 x0 y0
+					}
+					else if CurrentEmoteY > 500
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICBL, w100 h100 x0 y200
+					}
+					else
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICML, w100 h100 x0 y100
+					}
+				}
+				else if CurrentEmoteX > 850
+				{
+					if CurrentEmoteY < 400
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICTR, w100 h100 x200 y0
+					}
+					else if CurrentEmoteY > 500
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICBR, w100 h100 x200 y200
+					}
+					else
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICMR, w100 h100 x200 y100
+					}
 				}
 				else
 				{
-					GuiControl, EmoteGUI:MoveDraw, PICML, w100 h100 x0 y100
+					if CurrentEmoteY < 400
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICTM, w100 h100 x100 y0
+					}
+					else if CurrentEmoteY > 500
+					{
+						GuiControl, EmoteGUI:MoveDraw, PICBM, w100 h100 x100 y200
+					}
+					else
+					{
+						; GuiControl, EmoteGUI:MoveDraw, PICMM, w100 h100 x100 y100
+					}
 				}
+				Gui, EmoteGUI:Show, NoActivate
+				Sleep, 50
 			}
-			else if CurrentEmoteX > 850
-			{
-				if CurrentEmoteY < 400
-				{
-					GuiControl, EmoteGUI:MoveDraw, PICTR, w100 h100 x200 y0
-				}
-				else if CurrentEmoteY > 500
-				{
-					GuiControl, EmoteGUI:MoveDraw, PICBR, w100 h100 x200 y200
-				}
-				else
-				{
-					GuiControl, EmoteGUI:MoveDraw, PICMR, w100 h100 x200 y100
-				}
-			}
-			else
-			{
-				if CurrentEmoteY < 400
-				{
-					GuiControl, EmoteGUI:MoveDraw, PICTM, w100 h100 x100 y0
-				}
-				else if CurrentEmoteY > 500
-				{
-					GuiControl, EmoteGUI:MoveDraw, PICBM, w100 h100 x100 y200
-				}
-				else
-				{
-					; GuiControl, EmoteGUI:MoveDraw, PICMM, w100 h100 x100 y100
-				}
-			}
-			Gui, EmoteGUI:Show, NoActivate
-			Sleep, 50
 		}
 		
 		
@@ -285,61 +288,64 @@ LaunchOnslGUI:
 	{
 		While (GetKeyState(KeyBind))
 		{
-			if onslgui = -1
+			IfWinActive ahk_exe reactivedrop.exe
 			{
-				MouseGetPos, CurrentPosX, CurrentPosY
-				MouseMove, %CenterX%, %CenterY%
-				onslgui = 1
-			}
-			MouseGetPos, CurrentOnslX, CurrentOnslY
-			ResetOnslGUI()
-			if CurrentOnslX < 750
-			{
-				if CurrentOnslY < 400
+				if onslgui = -1
 				{
-					GuiControl, OnslGUI:MoveDraw, PICTL, w100 h100 x0 y0
+					MouseGetPos, CurrentPosX, CurrentPosY
+					MouseMove, %CenterX%, %CenterY%
+					onslgui = 1
 				}
-				else if CurrentOnslY > 500
+				MouseGetPos, CurrentOnslX, CurrentOnslY
+				ResetOnslGUI()
+				if CurrentOnslX < 750
 				{
-					GuiControl, OnslGUI:MoveDraw, PICBL, w100 h100 x0 y200
+					if CurrentOnslY < 400
+					{
+						GuiControl, OnslGUI:MoveDraw, PICTL, w100 h100 x0 y0
+					}
+					else if CurrentOnslY > 500
+					{
+						GuiControl, OnslGUI:MoveDraw, PICBL, w100 h100 x0 y200
+					}
+					else
+					{
+						GuiControl, OnslGUI:MoveDraw, PICML, w100 h100 x0 y100
+					}
+				}
+				else if CurrentOnslX > 850
+				{
+					if CurrentOnslY < 400
+					{
+						GuiControl, OnslGUI:MoveDraw, PICTR, w100 h100 x200 y0
+					}
+					else if CurrentOnslY > 500
+					{
+						GuiControl, OnslGUI:MoveDraw, PICBR, w100 h100 x200 y200
+					}
+					else
+					{
+						GuiControl, OnslGUI:MoveDraw, PICMR, w100 h100 x200 y100
+					}
 				}
 				else
 				{
-					GuiControl, OnslGUI:MoveDraw, PICML, w100 h100 x0 y100
+					if CurrentOnslY < 400
+					{
+						GuiControl, OnslGUI:MoveDraw, PICTM, w100 h100 x100 y0
+					}
+					else if CurrentOnslY > 500
+					{
+						GuiControl, OnslGUI:MoveDraw, PICBM, w100 h100 x100 y200
+					}
+					else
+					{
+						; GuiControl, OnslGUI:MoveDraw, PICMM, w100 h100 x100 y100
+					}
 				}
+				Gui, OnslGUI:Show, NoActivate
+				Sleep, 50
 			}
-			else if CurrentOnslX > 850
-			{
-				if CurrentOnslY < 400
-				{
-					GuiControl, OnslGUI:MoveDraw, PICTR, w100 h100 x200 y0
-				}
-				else if CurrentOnslY > 500
-				{
-					GuiControl, OnslGUI:MoveDraw, PICBR, w100 h100 x200 y200
-				}
-				else
-				{
-					GuiControl, OnslGUI:MoveDraw, PICMR, w100 h100 x200 y100
-				}
-			}
-			else
-			{
-				if CurrentOnslY < 400
-				{
-					GuiControl, OnslGUI:MoveDraw, PICTM, w100 h100 x100 y0
-				}
-				else if CurrentOnslY > 500
-				{
-					GuiControl, OnslGUI:MoveDraw, PICBM, w100 h100 x100 y200
-				}
-				else
-				{
-					; GuiControl, OnslGUI:MoveDraw, PICMM, w100 h100 x100 y100
-				}
-			}
-			Gui, OnslGUI:Show, NoActivate
-			Sleep, 50
 		}
 		
 		
