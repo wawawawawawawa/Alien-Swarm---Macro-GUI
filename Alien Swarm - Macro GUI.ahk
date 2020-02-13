@@ -15,6 +15,16 @@ ChatCheck = 1
 counter = -1 
 emotegui = -1
 onslgui = -1
+
+; Window Constants
+SysGet, borderwidth, 32
+SysGet, borderheight, 33
+WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_exe reactivedrop.exe
+CenterX150 := WinX + (WinWidth / 2) + borderwidth - 150
+CenterY150 := WinY + (WinHeight / 2) + borderheight - 150
+CenterX := CenterX150 + 150 - WinX
+CenterY := CenterY150 + 150 - WinY
+
 ;=============== GUI ==========================
 Gui, ChatGUI:+AlwaysOnTop -Caption -border +Disabled
 Gui, ChatGUI:Font, s18 cRed Bold
@@ -34,7 +44,7 @@ Gui, EmoteGUI:Add, Picture, x0 y200 w100 h100 vPICBL, %A_ScriptDir%\img\emotes\e
 Gui, EmoteGUI:Add, Picture, x100 y200 w100 h100 vPICBM, %A_ScriptDir%\img\emotes\emotestop.png
 Gui, EmoteGUI:Add, Picture, x200 y200 w100 h100 vPICBR, %A_ScriptDir%\img\emotes\emoteammo.png
 WinSet, TransColor, %CustomColor%
-Gui, EmoteGUI:Show, x650 y300 NoActivate Hide
+Gui, EmoteGUI:Show, x%CenterX150% y%CenterY150% NoActivate Hide
 
 Gui, OnslGUI:+LastFound +AlwaysOnTop -Caption -border +Disabled
 Gui, OnslGUI:Color, %CustomColor%
@@ -48,7 +58,7 @@ Gui, OnslGUI:Add, Picture, x0 y200 w100 h100 vPICBL, %A_ScriptDir%\img\enemies\H
 Gui, OnslGUI:Add, Picture, x100 y200 w100 h100 vPICBM, %A_ScriptDir%\img\enemies\Buzzer.png
 Gui, OnslGUI:Add, Picture, x200 y200 w100 h100 vPICBR, %A_ScriptDir%\img\enemies\Boomer.png
 WinSet, TransColor, %CustomColor%
-Gui, OnslGUI:Show, x650 y300 NoActivate Hide
+Gui, OnslGUI:Show, x%CenterX150% y%CenterY150% NoActivate Hide
 
 SuspendOrNot()
 return
@@ -149,7 +159,7 @@ LaunchEmoteGUI:
 			if emotegui = -1
 			{
 				MouseGetPos, CurrentPosX, CurrentPosY
-				MouseMove, 800, 450
+				MouseMove, %CenterX%, %CenterY%
 				emotegui = 1
 			}
 			MouseGetPos, CurrentEmoteX, CurrentEmoteY
@@ -266,7 +276,7 @@ LaunchOnslGUI:
 			if onslgui = -1
 			{
 				MouseGetPos, CurrentPosX, CurrentPosY
-				MouseMove, 800, 450
+				MouseMove, %CenterX%, %CenterY%
 				onslgui = 1
 			}
 			MouseGetPos, CurrentOnslX, CurrentOnslY
