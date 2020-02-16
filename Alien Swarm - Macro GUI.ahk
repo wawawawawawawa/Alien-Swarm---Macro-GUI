@@ -224,6 +224,7 @@ LaunchEmoteGUI:
 					}
 				}
 				Gui, EmoteGUI:Show, NoActivate
+				Gui, EmoteGUI:+AlwaysOnTop
 				Sleep, 50
 			}
 		}
@@ -344,6 +345,7 @@ LaunchOnslGUI:
 					}
 				}
 				Gui, OnslGUI:Show, NoActivate
+				Gui, OnslGUI:+AlwaysOnTop
 				Sleep, 50
 			}
 		}
