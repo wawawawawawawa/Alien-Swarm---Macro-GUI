@@ -11,7 +11,6 @@ IniRead, KeyBind, HotkeySetting.ini, HotKey, KeyBind
 Hotkey, ~$%KeyBind%, Macro
 
 ; Constants
-ChatCheck = 1
 counter = -1 
 emotegui = -1
 onslgui = -1
@@ -38,11 +37,6 @@ CenterYLeft := CenterY - 50
 CenterYRight := CenterY + 50
 
 ;=============== GUI ==========================
-Gui, ChatGUI:+AlwaysOnTop -Caption -border +Disabled
-Gui, ChatGUI:Font, s18 cRed Bold
-Gui, ChatGUI:Add, Text, vChatText, Chat Mode OFF
-Gui, ChatGUI:Show, x1 y0 NA Hide
-
 CustomColor := "EEAA99"  ; Can be any RGB color (it will be made transparent below).
 Gui, EmoteGUI:+LastFound +AlwaysOnTop -Caption -border +Disabled
 Gui, EmoteGUI:Color, %CustomColor%
@@ -85,37 +79,6 @@ SuspendOrNot()
 			continue
 		}
 		Suspend, On
-	}
-}
-return
-
-~^Enter::
-{
-	ChatCheck = -1
-	GuiControl, ChatGUI:, ChatText, Chat Mode ON
-	Gui, ChatGUI:Font, s18 cGreen Bold
-	GuiControl, ChatGUI:Font, ChatText
-	Gui, ChatGUI:Show, NA
-}
-return
-~Enter up::
-{
-	ChatCheck *= -1
-	if ChatCheck = -1
-	{
-		GuiControl, ChatGUI:, ChatText, Chat Mode ON
-		Gui, ChatGUI:Font, s18 cGreen Bold
-		GuiControl, ChatGUI:Font, ChatText
-		Gui, ChatGUI:Show, NA
-	}
-	else
-	{
-		GuiControl, ChatGUI:, ChatText, Chat Mode OFF
-		Gui, ChatGUI:Font, s18 cRed Bold
-		GuiControl, ChatGUI:Font, ChatText
-		Gui, ChatGUI:Show, NA
-		Sleep, 100
-		Gui, ChatGUI:Show, NA Hide
 	}
 }
 return
@@ -164,243 +127,237 @@ return
 
 LaunchEmoteGUI:
 {
-	If (ChatCheck = 1)
+	While (GetKeyState(KeyBind))
 	{
-		While (GetKeyState(KeyBind))
+		IfWinActive ahk_exe reactivedrop.exe
 		{
-			IfWinActive ahk_exe reactivedrop.exe
+			if emotegui = -1
 			{
-				if emotegui = -1
+				MouseGetPos, CurrentPosX, CurrentPosY
+				MouseMove, %CenterX%, %CenterY%
+				emotegui = 1
+			}
+			MouseGetPos, CurrentEmoteX, CurrentEmoteY
+			ResetEmoteGUI()
+			if CurrentEmoteX < %CenterXLeft%
+			{
+				if CurrentEmoteY < %CenterYLeft%
 				{
-					MouseGetPos, CurrentPosX, CurrentPosY
-					MouseMove, %CenterX%, %CenterY%
-					emotegui = 1
+					GuiControl, EmoteGUI:MoveDraw, PICTL, w100 h100 x0 y0
 				}
-				MouseGetPos, CurrentEmoteX, CurrentEmoteY
-				ResetEmoteGUI()
-				if CurrentEmoteX < 750
+				else if CurrentEmoteY > %CenterYRight%
 				{
-					if CurrentEmoteY < 400
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICTL, w100 h100 x0 y0
-					}
-					else if CurrentEmoteY > 500
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICBL, w100 h100 x0 y200
-					}
-					else
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICML, w100 h100 x0 y100
-					}
-				}
-				else if CurrentEmoteX > 850
-				{
-					if CurrentEmoteY < 400
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICTR, w100 h100 x200 y0
-					}
-					else if CurrentEmoteY > 500
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICBR, w100 h100 x200 y200
-					}
-					else
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICMR, w100 h100 x200 y100
-					}
+					GuiControl, EmoteGUI:MoveDraw, PICBL, w100 h100 x0 y200
 				}
 				else
 				{
-					if CurrentEmoteY < 400
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICTM, w100 h100 x100 y0
-					}
-					else if CurrentEmoteY > 500
-					{
-						GuiControl, EmoteGUI:MoveDraw, PICBM, w100 h100 x100 y200
-					}
-					else
-					{
-						; GuiControl, EmoteGUI:MoveDraw, PICMM, w100 h100 x100 y100
-					}
+					GuiControl, EmoteGUI:MoveDraw, PICML, w100 h100 x0 y100
 				}
-				Gui, EmoteGUI:Show, NoActivate
-				Gui, EmoteGUI:+AlwaysOnTop
-				Sleep, 50
 			}
-		}
-		
-		
-		Gui, EmoteGUI:Show, Hide
-		MouseMove, %CurrentPosX%, %CurrentPosY%
-		if CurrentEmoteX < 750
-		{
-			if CurrentEmoteY < 400
+			else if CurrentEmoteX > %CenterXRight%
 			{
-				Send {RCTRL down}{Numpad3}{RCTRL up} ; smile emote
-			}
-			else if CurrentEmoteY > 500
-			{
-				Send {RCTRL down}{Numpad1}{RCTRL up} ; medic emote
+				if CurrentEmoteY < %CenterYLeft%
+				{
+					GuiControl, EmoteGUI:MoveDraw, PICTR, w100 h100 x200 y0
+				}
+				else if CurrentEmoteY > %CenterYRight%
+				{
+					GuiControl, EmoteGUI:MoveDraw, PICBR, w100 h100 x200 y200
+				}
+				else
+				{
+					GuiControl, EmoteGUI:MoveDraw, PICMR, w100 h100 x200 y100
+				}
 			}
 			else
 			{
-				Send {RCTRL down}{Numpad6}{RCTRL up} ; ! emote
+				if CurrentEmoteY < %CenterYLeft%
+				{
+					GuiControl, EmoteGUI:MoveDraw, PICTM, w100 h100 x100 y0
+				}
+				else if CurrentEmoteY > %CenterYRight%
+				{
+					GuiControl, EmoteGUI:MoveDraw, PICBM, w100 h100 x100 y200
+				}
+				else
+				{
+					; GuiControl, EmoteGUI:MoveDraw, PICMM, w100 h100 x100 y100
+				}
 			}
+			Gui, EmoteGUI:Show, NoActivate
+			Gui, EmoteGUI:+AlwaysOnTop
+			Sleep, 50
 		}
-		else if CurrentEmoteX > 850
+	}
+		
+		
+	Gui, EmoteGUI:Show, Hide
+	MouseMove, %CurrentPosX%, %CurrentPosY%
+	if CurrentEmoteX < %CenterXLeft%
+	{
+		if CurrentEmoteY < %CenterYLeft%
 		{
-			if CurrentEmoteY < 400
-			{
-				Send {RCTRL down}{Numpad7}{RCTRL up} ; anime emote
-			}
-			else if CurrentEmoteY > 500
-			{
-				Send {RCTRL down}{Numpad2}{RCTRL up} ; ammo emote
-			}
-			else
-			{
-				Send {RCTRL down}{Numpad8}{RCTRL up} ; ? emote
-			}
+			Send {RCTRL down}{Numpad3}{RCTRL up} ; smile emote
+		}
+		else if CurrentEmoteY > %CenterYRight%
+		{
+			Send {RCTRL down}{Numpad1}{RCTRL up} ; medic emote
 		}
 		else
 		{
-			if CurrentEmoteY < 400
-			{
-				Send {RCTRL down}{Numpad5}{RCTRL up} ; go emote
-			}
-			else if CurrentEmoteY > 500
-			{
-				Send {RCTRL down}{Numpad4}{RCTRL up} ; stop emote
-			}
-			else
-			{
-				; Send {RCTRL down}{Numpad9}{RCTRL up} ; flynn voice
-			}
+			Send {RCTRL down}{Numpad6}{RCTRL up} ; ! emote
 		}
-		emotegui = -1
-		ResetEmoteGUI()
 	}
+	else if CurrentEmoteX > %CenterXRight%
+	{
+		if CurrentEmoteY < %CenterYLeft%
+		{
+			Send {RCTRL down}{Numpad7}{RCTRL up} ; anime emote
+		}
+		else if CurrentEmoteY > %CenterYRight%
+		{
+			Send {RCTRL down}{Numpad2}{RCTRL up} ; ammo emote
+		}
+		else
+		{
+			Send {RCTRL down}{Numpad8}{RCTRL up} ; ? emote
+		}
+	}
+	else
+	{
+		if CurrentEmoteY < %CenterYLeft%
+		{
+			Send {RCTRL down}{Numpad5}{RCTRL up} ; go emote
+		}
+		else if CurrentEmoteY > %CenterYRight%
+		{
+			Send {RCTRL down}{Numpad4}{RCTRL up} ; stop emote
+		}
+		else
+		{
+			; Send {RCTRL down}{Numpad9}{RCTRL up} ; flynn voice
+		}
+	}
+	emotegui = -1
+	ResetEmoteGUI()
 }
 return
 
 LaunchOnslGUI:
 {
-	If (ChatCheck = 1)
+	While (GetKeyState(KeyBind))
 	{
-		While (GetKeyState(KeyBind))
+		IfWinActive ahk_exe reactivedrop.exe
 		{
-			IfWinActive ahk_exe reactivedrop.exe
+			if onslgui = -1
 			{
-				if onslgui = -1
+				MouseGetPos, CurrentPosX, CurrentPosY
+				MouseMove, %CenterX%, %CenterY%
+				onslgui = 1
+			}
+			MouseGetPos, CurrentOnslX, CurrentOnslY
+			ResetOnslGUI()
+			if CurrentOnslX < %CenterXLeft%
+			{
+				if CurrentOnslY < %CenterYLeft%
 				{
-					MouseGetPos, CurrentPosX, CurrentPosY
-					MouseMove, %CenterX%, %CenterY%
-					onslgui = 1
+					GuiControl, OnslGUI:MoveDraw, PICTL, w100 h100 x0 y0
 				}
-				MouseGetPos, CurrentOnslX, CurrentOnslY
-				ResetOnslGUI()
-				if CurrentOnslX < 750
+				else if CurrentOnslY > %CenterYRight%
 				{
-					if CurrentOnslY < 400
-					{
-						GuiControl, OnslGUI:MoveDraw, PICTL, w100 h100 x0 y0
-					}
-					else if CurrentOnslY > 500
-					{
-						GuiControl, OnslGUI:MoveDraw, PICBL, w100 h100 x0 y200
-					}
-					else
-					{
-						GuiControl, OnslGUI:MoveDraw, PICML, w100 h100 x0 y100
-					}
-				}
-				else if CurrentOnslX > 850
-				{
-					if CurrentOnslY < 400
-					{
-						GuiControl, OnslGUI:MoveDraw, PICTR, w100 h100 x200 y0
-					}
-					else if CurrentOnslY > 500
-					{
-						GuiControl, OnslGUI:MoveDraw, PICBR, w100 h100 x200 y200
-					}
-					else
-					{
-						GuiControl, OnslGUI:MoveDraw, PICMR, w100 h100 x200 y100
-					}
+					GuiControl, OnslGUI:MoveDraw, PICBL, w100 h100 x0 y200
 				}
 				else
 				{
-					if CurrentOnslY < 400
-					{
-						GuiControl, OnslGUI:MoveDraw, PICTM, w100 h100 x100 y0
-					}
-					else if CurrentOnslY > 500
-					{
-						GuiControl, OnslGUI:MoveDraw, PICBM, w100 h100 x100 y200
-					}
-					else
-					{
-						; GuiControl, OnslGUI:MoveDraw, PICMM, w100 h100 x100 y100
-					}
+					GuiControl, OnslGUI:MoveDraw, PICML, w100 h100 x0 y100
 				}
-				Gui, OnslGUI:Show, NoActivate
-				Gui, OnslGUI:+AlwaysOnTop
-				Sleep, 50
 			}
-		}
-		
-		
-		Gui, OnslGUI:Show, Hide
-		MouseMove, %CurrentPosX%, %CurrentPosY%
-		if CurrentOnslX < 750
-		{
-			if CurrentOnslY < 400
+			else if CurrentOnslX > %CenterXRight%
 			{
-				SendInput {Numpad1} ; xeno
-			}
-			else if CurrentOnslY > 500
-			{
-				SendInput {Numpad2} ; harvester 
+				if CurrentOnslY < %CenterYLeft%
+				{
+					GuiControl, OnslGUI:MoveDraw, PICTR, w100 h100 x200 y0
+				}
+				else if CurrentOnslY > %CenterYRight%
+				{
+					GuiControl, OnslGUI:MoveDraw, PICBR, w100 h100 x200 y200
+				}
+				else
+				{
+					GuiControl, OnslGUI:MoveDraw, PICMR, w100 h100 x200 y100
+				}
 			}
 			else
 			{
-				SendInput {Numpad3} ; horde 
+				if CurrentOnslY < %CenterYLeft%
+				{
+					GuiControl, OnslGUI:MoveDraw, PICTM, w100 h100 x100 y0
+				}
+				else if CurrentOnslY > %CenterYRight%
+				{
+					GuiControl, OnslGUI:MoveDraw, PICBM, w100 h100 x100 y200
+				}
+				else
+				{
+					; GuiControl, OnslGUI:MoveDraw, PICMM, w100 h100 x100 y100
+				}
 			}
+			Gui, OnslGUI:Show, NoActivate
+			Gui, OnslGUI:+AlwaysOnTop
+			Sleep, 50
 		}
-		else if CurrentOnslX > 850
+	}
+	
+	
+	Gui, OnslGUI:Show, Hide
+	MouseMove, %CurrentPosX%, %CurrentPosY%
+	if CurrentOnslX < %CenterXLeft%
+	{
+		if CurrentOnslY < %CenterYLeft%
 		{
-			if CurrentOnslY < 400
-			{
-				SendInput {Numpad4} ; mortar
-			}
-			else if CurrentOnslY > 500
-			{
-				SendInput {Numpad5} ; boomer
-			}
-			else
-			{
-				SendInput {Numpad6} ; shield 
-			}
+			SendInput {Numpad1} ; xeno
+		}
+		else if CurrentOnslY > %CenterYRight%
+		{
+			SendInput {Numpad2} ; harvester 
 		}
 		else
 		{
-			if CurrentOnslY < 400
-			{
-				SendInput {Numpad7} ; para 
-			}
-			else if CurrentOnslY > 500
-			{
-				SendInput {Numpad8} ; buzzer
-			}
-			else
-			{
-				; SendInput {Numpad9} ; queen 
-			}
+			SendInput {Numpad3} ; horde 
 		}
-		onslgui = -1
-		ResetOnslGUI()
 	}
+	else if CurrentOnslX > %CenterXRight%
+	{
+		if CurrentOnslY < %CenterYLeft%
+		{
+			SendInput {Numpad4} ; mortar
+		}
+		else if CurrentOnslY > %CenterYRight%
+		{
+			SendInput {Numpad5} ; boomer
+		}
+		else
+		{
+			SendInput {Numpad6} ; shield 
+		}
+	}
+	else
+	{
+		if CurrentOnslY < %CenterYLeft%
+		{
+			SendInput {Numpad7} ; para 
+		}
+		else if CurrentOnslY > %CenterYRight%
+		{
+			SendInput {Numpad8} ; buzzer
+		}
+		else
+		{
+			; SendInput {Numpad9} ; queen 
+		}
+	}
+	onslgui = -1
+	ResetOnslGUI()
 }
 return
 
