@@ -15,10 +15,10 @@ counter = -1
 emotegui = -1
 onslgui = -1
 
-CenterX150 := 650
-CenterY150 := 250
 CenterX := 800
 CenterY := 400
+CenterX150 := CenterX - 150
+CenterY150 := CenterY - 150
 
 ; Window Constants
 If WinExist("ahk_exe reactivedrop.exe")
@@ -26,11 +26,12 @@ If WinExist("ahk_exe reactivedrop.exe")
 	SysGet, borderwidth, 32
 	SysGet, borderheight, 33
 	WinGetPos, WinX, WinY, WinWidth, WinHeight, ahk_exe reactivedrop.exe
-	CenterX150 := WinX + (WinWidth / 2) + borderwidth - 150
-	CenterY150 := WinY + (WinHeight / 2) + borderheight - 150
-	CenterX := CenterX150 + 150 - WinX
-	CenterY := CenterY150 + 150 - WinY
+	CenterX := (WinWidth / 2) + borderwidth 
+	CenterY := (WinHeight / 2) + borderheight
+	CenterX150 := WinX + CenterX - 150
+	CenterY150 := WinY + CenterY - 150
 }
+
 CenterXLeft := CenterX - 50
 CenterXRight := CenterX + 50
 CenterYLeft := CenterY - 50
@@ -365,22 +366,19 @@ Macro: ; emote/horde panel
 {
 	ifWinActive, ahk_exe reactivedrop.exe
 	{
-		if ChatCheck = 1
+		if counter >= 0 ; setTimer already started, so we log the keypress instead
 		{
-			if counter >= 0 ; setTimer already started, so we log the keypress instead
-			{
-				counter++
-				return
-			}
-			if TimeCheck(KeyBind, "T0.15", "") = 0
-			{
-				counter = 0 ; Start setTimer and set the number of logged keypresses to 0
-				setTimer,Wawakey, 300
-			}
-			else ; key hold (and not pressed twice, just hold) => emote panel
-			{
-				GoSub, LaunchEmoteGUI
-			}
+			counter++
+			return
+		}
+		if TimeCheck(KeyBind, "T0.15", "") = 0
+		{
+			counter = 0 ; Start setTimer and set the number of logged keypresses to 0
+			setTimer,Wawakey, 300
+		}
+		else ; key hold (and not pressed twice, just hold) => emote panel
+		{
+			GoSub, LaunchEmoteGUI
 		}
 	}
 }
@@ -389,23 +387,20 @@ return
 Wawakey:
 {
 	setTimer,Wawakey,off
-	if ChatCheck = 1
+	if counter = 0 ; The key is pressed once
 	{
-		if counter = 0 ; The key is pressed once
+			Send {RCTRL down}{Numpad7}{RCTRL up} ; anime emote
+	}
+	else if counter >= 1 ; The key is pressed twice
+	{
+		GetKeyState, keyCheck, %KeyBind%
+		if keyCheck = D ; key pressed twice and hold => horde panel
 		{
-				Send {RCTRL down}{Numpad7}{RCTRL up} ; anime emote
+			GoSub, LaunchOnslGUI
 		}
-		else if counter >= 1 ; The key is pressed twice
+		else ; key pressed twice but not hold
 		{
-			GetKeyState, keyCheck, %KeyBind%
-			if keyCheck = D ; key pressed twice and hold => horde panel
-			{
-				GoSub, LaunchOnslGUI
-			}
-			else ; key pressed twice but not hold
-			{
-				Send {RCTRL down}{Numpad8}{RCTRL up} ; ? emote
-			}
+			Send {RCTRL down}{Numpad8}{RCTRL up} ; ? emote
 		}
 	}
 	counter = -1
