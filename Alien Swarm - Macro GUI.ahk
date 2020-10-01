@@ -415,7 +415,7 @@ return
 }
 return
 
-^F9:: ; CTRL + F8 to close the script manually
+^F9:: ; CTRL + F9 to restart the script
 {
 	Reload
 }
