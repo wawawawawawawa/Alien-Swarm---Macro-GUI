@@ -1,6 +1,8 @@
 # Alien-Swarm-Macro-GUI
 This tool for Alien Swarm works like this :
 
+![Macro GUI](https://github.com/wawawawawawawa/Alien-Swarm-Macro-GUI/blob/master/Macro%20GUI.gif)
+
 1) Make a GUI of 8 buttons in AHK (9 if you want to keep the center button as well) that works like the emote panel in Alien Swarm
 
 By default, I made those 2 GUI, but there are more images to use for different GUI
